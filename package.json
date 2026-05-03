@@ -1,0 +1,11 @@
+{
+  "name": "bag",
+  "version": "1.0.0",
+  "description": "A clean, hostable static website for your bag brand. No framework needed — just HTML, CSS, and JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

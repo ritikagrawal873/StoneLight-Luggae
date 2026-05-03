@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>BAG</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="logo brand-name">BAG</a>
+      <nav class="nav-links">
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#products" onclick="closeMobile()">Products</a>
+      <a href="#about"      onclick="closeMobile()">About</a>
+      <a href="#contact"    onclick="closeMobile()">Contact</a>
+    </div>
+  </header>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow" id="hero-eyebrow"></p>
+      <h1 class="hero-title"  id="hero-title"></h1>
+      <p class="hero-subtitle" id="hero-subtitle"></p>
+      <div class="hero-btns">
+        <a href="#" class="btn btn-primary" id="hero-cta-primary"></a>
+        <a href="#" class="btn btn-ghost"   id="hero-cta-secondary"></a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ==================== PRODUCTS ==================== -->
+  <section class="section products-home" id="products">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag"   id="prod-tag"></p>
+        <h2 class="section-title" id="prod-title"></h2>
+        <p class="section-desc"  id="prod-desc"></p>
+      </div>
+      <!-- Cards are injected here by app.js -->
+      <div id="prod-grid"></div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURES ==================== -->
+  <section class="section features" id="features">
+    <div class="container">
+      <!-- Items are injected here by app.js -->
+      <div id="features-grid"></div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="about-grid">
+
+        <!-- Left: image + stat cards -->
+        <div class="about-visual">
+          <div id="about-stats"></div>        <!-- Stats cards -->
+          <div class="about-img-wrap" id="about-img-wrap"></div>  <!-- Photo or illustration -->
+        </div>
+
+        <!-- Right: text -->
+        <div class="about-content">
+          <p class="section-tag"    id="about-tag"></p>
+          <h2 class="section-title" id="about-title"></h2>
+          <div id="about-text"></div>
+          <div id="about-values"></div>
+          <a href="#" class="btn btn-primary" id="about-cta"></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag"    id="contact-tag"></p>
+        <h2 class="section-title" id="contact-title"></h2>
+        <p class="section-desc"   id="contact-desc"></p>
+      </div>
+      <div class="contact-grid">
+
+        <!-- Left: info -->
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div><strong>Email</strong><p id="contact-email"></p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div><strong>Phone</strong><p id="contact-phone"></p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div><strong>Address</strong><p id="contact-address"></p></div>
+          </div>
+          <div class="social-links">
+            <a href="#" class="social-btn" id="social-instagram">📸 Instagram</a>
+            <a href="#" class="social-btn" id="social-whatsapp">💬 WhatsApp</a>
+          </div>
+        </div>
+
+        <!-- Right: form -->
+        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text"  id="name"    name="name"    placeholder="Your name"         required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email"   name="email"   placeholder="your@email.com"    required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea           id="message" name="message" placeholder="How can we help?" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary full-width" id="submitBtn">Send Message</button>
+          <p class="form-success" id="formSuccess">✅ Message sent! We'll get back to you soon.</p>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="logo" id="footer-nav-brand">BAG</a>
+          <p id="footer-desc"></p>
+        </div>
+        <div class="footer-col">
+          <strong>Quick Links</strong>
+          <div id="footer-quick"></div>
+        </div>
+        <div class="footer-col">
+          <strong>Products</strong>
+          <div id="footer-cat"></div>
+        </div>
+        <div class="footer-col">
+          <strong>Support</strong>
+          <div id="footer-support"></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span id="footer-year"></span> <span id="footer-brand-name"></span>. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: content.js MUST come before app.js -->
+  <script src="js/content.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

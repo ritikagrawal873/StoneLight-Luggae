@@ -1,0 +1,67 @@
+HOW TO ADD YOUR IMAGES
+======================
+
+images/ folder structure
+--------------------------
+images/
+├── hero/               ← Homepage hero background
+│   └── hero-bg.jpg
+│
+├── categories/         ← Category card images (shown on homepage grid)
+│   ├── cat-totes.jpg
+│   ├── cat-clutch.jpg
+│   ├── cat-backpack.jpg
+│   ├── cat-crossbody.jpg
+│   ├── cat-travel.jpg
+│   └── cat-mini.jpg
+│
+├── products/           ← Product images (shown on category pages)
+│   ├── totes/
+│   │   ├── prod-tote-1.jpg
+│   │   └── prod-tote-2.jpg
+│   ├── clutch/
+│   │   ├── prod-clutch-1.jpg
+│   │   └── prod-clutch-2.jpg
+│   ├── backpack/
+│   │   └── prod-backpack-1.jpg
+│   ├── crossbody/
+│   │   └── prod-crossbody-1.jpg
+│   ├── travel/
+│   │   └── prod-travel-1.jpg
+│   └── mini/
+│       └── prod-mini-1.jpg
+│
+└── about/              ← About section image
+    └── about.jpg
+
+
+HOW TO REPLACE AN IMAGE
+--------------------------
+1. Drop your image into the correct subfolder above.
+2. Open js/content.js and update the image path.
+
+Examples:
+  Hero:       backgroundImage: "images/hero/my-hero.jpg"
+  Category:   image: "images/categories/cat-totes.jpg"
+  Product:    image: "images/products/totes/my-tote.jpg"
+  About:      image: "images/about/my-photo.jpg"
+
+HOW TO ADD MORE PRODUCT IMAGES
+--------------------------
+1. Drop the image into the right products/[category]/ folder.
+2. In js/content.js, find the product and update its image path.
+   Example: image: "images/products/totes/new-tote.jpg"
+
+RECOMMENDED SIZES
+--------------------------
+  Hero background  : 1920 x 1080 px
+  Category cards   :  800 x  600 px
+  Product images   :  800 x  600 px
+  About section    :  900 x  675 px
+
+SUPPORTED FORMATS
+--------------------------
+  .jpg  .jpeg  .png  .webp  .gif
+
+NOTE: If an image is missing or the path is wrong, the website
+automatically shows an emoji fallback — nothing will break.
