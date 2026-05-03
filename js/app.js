@@ -53,8 +53,8 @@ function buildHero() {
 
   if (H.backgroundImage) {
     sec.style.background =
-      `linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.35) 100%),
-       url('${H.backgroundImage}') center/cover no-repeat`;
+      `linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%),
+       url('${H.backgroundImage}') center bottom / cover no-repeat`;
   }
 }
 
@@ -246,13 +246,63 @@ function initActiveNav() {
 // =============================================
 window.handleSubmit = function(e) {
   e.preventDefault();
-  const btn     = document.getElementById('submitBtn');
+  const form = e.target;
+  const btn = document.getElementById('submitBtn');
   const success = document.getElementById('formSuccess');
-  btn.textContent = 'Sending…'; btn.disabled = true;
-  setTimeout(() => {
-    e.target.reset();
-    btn.textContent = 'Send Message'; btn.disabled = false;
+  const errorMsg = document.getElementById('formError');
+
+  errorMsg.style.display = 'none';
+  btn.textContent = 'Sending…'; 
+  btn.disabled = true;
+
+  const formData = new FormData(form);
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    body: formData
+  })
+  .then(async (response) => {
+    let json = await response.json();
+    if (response.status == 200) {
+      form.reset();
+      success.textContent = "✅ Message sent! We'll get back to you soon.";
+      success.style.color = "#2e7d32";
+      success.classList.add('show');
+    } else {
+      success.textContent = "❌ " + json.message;
+      success.style.color = "#d32f2f";
+      success.classList.add('show');
+    }
+  })
+  .catch(error => {
+    success.textContent = "❌ Something went wrong!";
+    success.style.color = "#d32f2f";
     success.classList.add('show');
+  })
+  .finally(() => {
+    btn.textContent = 'Send Message'; 
+    btn.disabled = false;
     setTimeout(() => success.classList.remove('show'), 5000);
-  }, 1200);
+  });
 };
+
+// Form validation error handler
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('contactForm');
+  const errorMsg = document.getElementById('formError');
+  
+  if (form && errorMsg) {
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.addEventListener('click', () => {
+      if (!form.checkValidity()) {
+        errorMsg.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'none';
+      }
+    });
+
+    form.addEventListener('input', () => {
+      errorMsg.style.display = 'none';
+    });
+  }
+});
