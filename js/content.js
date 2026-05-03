@@ -6,9 +6,9 @@
 const SITE = {
 
   brand: {
-    name:            "BAG",
+    name:            "StoneLight",
     logo:            "images/home/Logo.JPG.jpeg", // Your brand logo
-    pageTitle:       "BAG | Premium Bags & Accessories",
+    pageTitle:       "StoneLight | Premium Bags & Accessories",
     metaDescription: "Premium bags and accessories for every occasion.",
   },
 
@@ -132,7 +132,7 @@ const SITE = {
     sectionTag:  "Our Story",
     title:       "Crafted with Passion",
     paragraphs: [
-      "At <strong>BAG</strong>, we believe a great bag is more than an accessory — it's a companion for life's most important moments.",
+      "At <strong>StoneLight</strong>, we believe a great bag is more than an accessory — it's a companion for life's most important moments.",
       "Founded in 2018 with a single dream: to make premium, thoughtfully designed bags accessible to everyone.",
       "We're a small, passionate team that genuinely cares about what we make — and who we make it for.",
     ],

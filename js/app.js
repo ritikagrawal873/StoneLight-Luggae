@@ -121,7 +121,7 @@ function buildAbout() {
   // About image
   const imgWrap = document.getElementById('about-img-wrap');
   if (A.image) {
-    imgWrap.innerHTML = `<img src="${A.image}" alt="About BAG" class="about-photo" onerror="this.parentElement.innerHTML='${bagIllustrationHTML()}'" />`;
+    imgWrap.innerHTML = `<img src="${A.image}" alt="About StoneLight" class="about-photo" onerror="this.parentElement.innerHTML='${bagIllustrationHTML()}'" />`;
   } else {
     imgWrap.innerHTML = bagIllustrationHTML();
   }
