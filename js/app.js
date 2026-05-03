@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function buildPage() {
   buildMeta();
   buildHero();
-  buildProducts();
+  buildCategories();
+  // buildProducts();
   buildFeatures();
   buildAbout();
   buildContact();
@@ -42,13 +43,13 @@ function buildHero() {
   const H = SITE.hero;
   const sec = document.getElementById('hero');
 
-  document.getElementById('hero-eyebrow').textContent  = H.eyebrow;
-  document.getElementById('hero-title').textContent    = H.title;
+  document.getElementById('hero-eyebrow').textContent = H.eyebrow;
+  document.getElementById('hero-title').textContent = H.title;
   document.getElementById('hero-subtitle').textContent = H.subtitle;
 
   const p = document.getElementById('hero-cta-primary');
   const s = document.getElementById('hero-cta-secondary');
-  p.textContent = H.ctaPrimary.text;   p.href = H.ctaPrimary.link;
+  p.textContent = H.ctaPrimary.text; p.href = H.ctaPrimary.link;
   s.textContent = H.ctaSecondary.text; s.href = H.ctaSecondary.link;
 
   if (H.backgroundImage) {
@@ -58,13 +59,38 @@ function buildHero() {
   }
 }
 
+function buildCategories() {
+  const C = SITE.categories;
+  if (!C) return;
+
+  const elTag = document.getElementById('cat-tag');
+  const elTitle = document.getElementById('cat-title');
+  if (elTag) elTag.textContent = C.sectionTag;
+  if (elTitle) elTitle.textContent = C.sectionTitle;
+
+  const grid = document.getElementById('cat-grid');
+  if (grid) {
+    grid.innerHTML = C.items.map(item => `
+      <a href="category.html?id=${item.id}" class="cat-card">
+        <div class="cat-img" style="background: var(--grey-light);">
+          <img src="${item.image}" alt="${item.name}" class="cat-photo"
+            onerror="this.style.display='none'" />
+        </div>
+        <div class="cat-body" style="padding: 16px; text-align: center;">
+          <h3 style="margin-bottom: 0;">${item.name}</h3>
+        </div>
+      </a>
+    `).join('');
+  }
+}
+
 function buildProducts() {
   const P = SITE.homeProducts;
   if (!P) return;
 
-  document.getElementById('prod-tag').textContent   = P.sectionTag;
+  document.getElementById('prod-tag').textContent = P.sectionTag;
   document.getElementById('prod-title').textContent = P.sectionTitle;
-  document.getElementById('prod-desc').textContent  = P.sectionDesc;
+  document.getElementById('prod-desc').textContent = P.sectionDesc;
 
   const grid = document.getElementById('prod-grid');
   grid.innerHTML = P.items.map(item => `
@@ -99,15 +125,15 @@ function buildFeatures() {
 
 function buildAbout() {
   const A = SITE.about;
-  document.getElementById('about-tag').textContent   = A.sectionTag;
+  document.getElementById('about-tag').textContent = A.sectionTag;
   document.getElementById('about-title').textContent = A.title;
-  document.getElementById('about-text').innerHTML    = A.paragraphs.map(p => `<p>${p}</p>`).join('');
-  document.getElementById('about-cta').textContent   = A.ctaText;
-  document.getElementById('about-cta').href          = A.ctaLink;
+  document.getElementById('about-text').innerHTML = A.paragraphs.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('about-cta').textContent = A.ctaText;
+  document.getElementById('about-cta').href = A.ctaLink;
 
   // Stats cards
   document.getElementById('about-stats').innerHTML = A.stats.map((s, i) => `
-    <div class="about-card ac${i+1}">
+    <div class="about-card ac${i + 1}">
       <span>${s.value}</span>
       <strong>${s.label}</strong>
     </div>
@@ -133,11 +159,11 @@ function bagIllustrationHTML() {
 
 function buildContact() {
   const C = SITE.contact;
-  document.getElementById('contact-tag').textContent   = C.sectionTag;
+  document.getElementById('contact-tag').textContent = C.sectionTag;
   document.getElementById('contact-title').textContent = C.sectionTitle;
-  document.getElementById('contact-desc').textContent  = C.sectionDesc;
-  document.getElementById('contact-email').textContent   = C.email;
-  document.getElementById('contact-phone').textContent   = C.phone;
+  document.getElementById('contact-desc').textContent = C.sectionDesc;
+  document.getElementById('contact-email').textContent = C.email;
+  document.getElementById('contact-phone').textContent = C.phone;
   document.getElementById('contact-address').textContent = C.address;
 
   const ig = document.getElementById('social-instagram');
@@ -147,8 +173,8 @@ function buildContact() {
 
 function buildFooter() {
   const F = SITE.footer;
-  document.getElementById('footer-desc').textContent      = F.description;
-  document.getElementById('footer-year').textContent      = F.copyrightYear;
+  document.getElementById('footer-desc').textContent = F.description;
+  document.getElementById('footer-year').textContent = F.copyrightYear;
   document.getElementById('footer-brand-name').textContent = SITE.brand.name;
   const navBrand = document.getElementById('footer-nav-brand');
   if (SITE.brand.logo) {
@@ -183,8 +209,8 @@ function initNavbar() {
 }
 
 function initMobileMenu() {
-  const hamburger   = document.getElementById('hamburger');
-  const mobileMenu  = document.getElementById('mobileMenu');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
   hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
   document.addEventListener('click', e => {
     if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
@@ -230,8 +256,8 @@ function initScrollReveal() {
 }
 
 function initActiveNav() {
-  const sections  = document.querySelectorAll('section[id]');
-  const navLinks  = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
@@ -244,7 +270,7 @@ function initActiveNav() {
 // =============================================
 // CONTACT FORM
 // =============================================
-window.handleSubmit = function(e) {
+window.handleSubmit = function (e) {
   e.preventDefault();
   const form = e.target;
   const btn = document.getElementById('submitBtn');
@@ -252,7 +278,7 @@ window.handleSubmit = function(e) {
   const errorMsg = document.getElementById('formError');
 
   errorMsg.style.display = 'none';
-  btn.textContent = 'Sending…'; 
+  btn.textContent = 'Sending…';
   btn.disabled = true;
 
   const formData = new FormData(form);
@@ -261,36 +287,36 @@ window.handleSubmit = function(e) {
     method: 'POST',
     body: formData
   })
-  .then(async (response) => {
-    let json = await response.json();
-    if (response.status == 200) {
-      form.reset();
-      success.textContent = "✅ Message sent! We'll get back to you soon.";
-      success.style.color = "#2e7d32";
-      success.classList.add('show');
-    } else {
-      success.textContent = "❌ " + json.message;
+    .then(async (response) => {
+      let json = await response.json();
+      if (response.status == 200) {
+        form.reset();
+        success.textContent = "✅ Message sent! We'll get back to you soon.";
+        success.style.color = "#2e7d32";
+        success.classList.add('show');
+      } else {
+        success.textContent = "❌ " + json.message;
+        success.style.color = "#d32f2f";
+        success.classList.add('show');
+      }
+    })
+    .catch(error => {
+      success.textContent = "❌ Something went wrong!";
       success.style.color = "#d32f2f";
       success.classList.add('show');
-    }
-  })
-  .catch(error => {
-    success.textContent = "❌ Something went wrong!";
-    success.style.color = "#d32f2f";
-    success.classList.add('show');
-  })
-  .finally(() => {
-    btn.textContent = 'Send Message'; 
-    btn.disabled = false;
-    setTimeout(() => success.classList.remove('show'), 5000);
-  });
+    })
+    .finally(() => {
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+      setTimeout(() => success.classList.remove('show'), 5000);
+    });
 };
 
 // Form validation error handler
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contactForm');
   const errorMsg = document.getElementById('formError');
-  
+
   if (form && errorMsg) {
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.addEventListener('click', () => {
