@@ -124,13 +124,6 @@ function escapeAttr(value) {
 // ENQUIRE
 // =============================================
 window.enquire = function(name) {
-  const message = name ? `Hi StoneLight, I have a query about ${name}.` : 'Hi StoneLight, I have a product query.';
-  const whatsapp = (SITE.contact && SITE.contact.whatsapp) || '';
-  if (whatsapp) {
-    const base = whatsapp.split('?')[0];
-    window.location.href = `${base}?text=${encodeURIComponent(message)}`;
-    return;
-  }
   window.location.href = 'index.html#contact';
 };
 
