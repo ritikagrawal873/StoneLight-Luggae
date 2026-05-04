@@ -78,7 +78,7 @@ function buildProducts(products) {
           src="${p.image}"
           alt="${p.name}"
           loading="lazy"
-          onerror="this.src='images/${currentCategory.emoji ? '' : ''}cat-${currentCategory.id}.jpg'"
+          onerror="this.onerror=null;this.src='${currentCategory.image}'"
         />
         ${p.badge ? `<span class="product-badge badge-${p.badge.toLowerCase().replace(' ','')}">${p.badge}</span>` : ''}
         <div class="product-actions">
@@ -149,7 +149,7 @@ function buildFooter() {
   document.getElementById('footer-quick').innerHTML = F.quickLinks.map(l =>
     `<a href="index.html${l.link}">${l.text}</a>`).join('');
 
-  document.getElementById('footer-cat').innerHTML = SITE.categories.items.slice(0, 4).map(c =>
+  document.getElementById('footer-cat').innerHTML = SITE.categories.items.map(c =>
     `<a href="category.html?id=${c.id}">${c.name}</a>`).join('');
 
   document.getElementById('footer-support').innerHTML = F.supportLinks.map(l =>

@@ -187,7 +187,7 @@ function buildFooter() {
     `<a href="${l.link}">${l.text}</a>`).join('');
 
   if (SITE.categories) {
-    document.getElementById('footer-cat').innerHTML = SITE.categories.items.slice(0, 4).map(c =>
+    document.getElementById('footer-cat').innerHTML = SITE.categories.items.map(c =>
       `<a href="category.html?id=${c.id}">${c.name}</a>`).join('');
   } else if (SITE.homeProducts) {
     document.getElementById('footer-cat').innerHTML = SITE.homeProducts.items.slice(0, 4).map(p =>
