@@ -58,7 +58,7 @@ const SITE = {
   //    │  },                                                      │
   //    └─────────────────────────────────────────────────────────┘
   // ────────────────────────────────────────────────────────────
-    categories: {
+      categories: {
     sectionTag:   "Collections",
     sectionTitle: "Shop by Category",
     items: [
@@ -74,7 +74,7 @@ const SITE = {
             price:         "₹3,499",
             originalPrice: "₹5,999",
             badge:         "Sale",
-            image:         "images/products/trolley-suitcase/prod-1.jpg",
+            image:         "images/products/trolley-suitcase/1777883945483-img_0827.png",
             description:   "Lightweight hardshell, TSA lock, 360° spinner wheels.",
           },
           {
@@ -343,7 +343,7 @@ const SITE = {
         ],
       },
     ], // end categories items
-  },   // end categories   // end categories
+  },   // end categories   // end categories   // end categories
 
 
   // ────────────────────────────────────────────────────────────
