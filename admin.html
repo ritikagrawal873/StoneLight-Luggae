@@ -608,6 +608,53 @@
           const data = await response.json();
           return { sha: data.content.sha };
         },
+
+        /**
+         * Uploads a binary file (e.g. an image) that is already base64-encoded.
+         * Unlike putFile, this does NOT re-encode the content — it sends b64 as-is.
+         * Used for image uploads where FileReader gives us the raw base64.
+         *
+         * @param {string} path    - Repository-relative file path
+         * @param {string} b64     - Base64-encoded file content (no data: prefix)
+         * @param {string} message - Commit message
+         * @returns {Promise<{ sha: string }>}
+         */
+        async putFileRaw(path, b64, message) {
+          const creds = AuthModule.getCredentials();
+          const url = `https://api.github.com/repos/${creds.owner}/${creds.repo}/contents/${path}`;
+          // Check if file already exists (to get its SHA for update)
+          let existingSha = undefined;
+          try {
+            const check = await fetch(url, {
+              headers: { 'Authorization': `Bearer ${creds.pat}`, 'Accept': 'application/vnd.github+json' },
+            });
+            if (check.ok) {
+              const existing = await check.json();
+              existingSha = existing.sha;
+            }
+          } catch (_) { /* file doesn't exist yet — that's fine */ }
+
+          const body = { message, content: b64 };
+          if (existingSha) body.sha = existingSha;
+
+          const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${creds.pat}`,
+              'Accept': 'application/vnd.github+json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          });
+          if (!response.ok) {
+            const errBody = await response.json().catch(() => ({}));
+            const err = new Error(errBody.message || `GitHub API error: ${response.status}`);
+            err.status = response.status;
+            throw err;
+          }
+          const data = await response.json();
+          return { sha: data.content.sha };
+        },
       };
 
       /* ───────────────────────────────────────────────────────
@@ -1047,6 +1094,68 @@
           .replace(/&/g,'&amp;').replace(/</g,'&lt;')
           .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       }
+      function productImageFallback(image, fallback) {
+        const src = String(image || '').trim();
+        if (!src) return fallback;
+        if (/^https?:\/\//i.test(src)) return src;
+        return src.replace(/^\/+/, '');
+      }
+      function rawGitHubImageUrl(image) {
+        const src = String(image || '').trim().replace(/^\/+/, '');
+        if (!src || /^https?:\/\//i.test(src)) return '';
+        const creds = AuthModule.getCredentials();
+        if (!creds) return '';
+        return 'https://raw.githubusercontent.com/' + encodeURIComponent(creds.owner) + '/' + encodeURIComponent(creds.repo) + '/HEAD/' + src.split('/').map(encodeURIComponent).join('/');
+      }
+      function imageErrorHandler(image, fallback) {
+        const rawUrl = rawGitHubImageUrl(image);
+        const fallbackSrc = productImageFallback(fallback, '');
+        if (rawUrl) {
+          return "if(!this.dataset.triedRaw){this.dataset.triedRaw='1';this.src='" + esc(rawUrl) + "';}else{this.onerror=null;this.src='" + esc(fallbackSrc) + "';}";
+        }
+        return "this.onerror=null;this.src='" + esc(fallbackSrc) + "';";
+      }
+      function renderImagePreview(preview, image, maxHeight) {
+        const val = String(image || '').trim();
+        preview.innerHTML = '';
+        if (!val) return;
+
+        const warning = document.createElement('span');
+        warning.className = 'alert alert-warning';
+        warning.style.display = 'inline-block';
+        warning.textContent = '⚠️ Image not found — check the path';
+
+        const img = document.createElement('img');
+        img.src = productImageFallback(val, '');
+        img.style.maxHeight = maxHeight;
+        img.style.borderRadius = '6px';
+        img.onerror = function() {
+          const rawUrl = rawGitHubImageUrl(val);
+          if (rawUrl && !img.dataset.triedRaw) {
+            img.dataset.triedRaw = '1';
+            img.src = rawUrl;
+            return;
+          }
+          preview.innerHTML = '';
+          preview.appendChild(warning);
+        };
+        preview.appendChild(img);
+      }
+      function productUploadFolder(cat) {
+        const existing = cat && cat.products && cat.products.find(function(p) {
+          return p.image && /^images\/products\/[^/]+\//.test(p.image);
+        });
+        if (existing) return existing.image.replace(/\/[^/]*$/, '');
+        return 'images/products/' + generateSlug(cat ? cat.name : 'product');
+      }
+      function dismissSheet(id) {
+        closeSheet(id);
+        setTimeout(function() {
+          const el = document.getElementById(id);
+          if (el && !el.classList.contains('is-open')) el.remove();
+        }, 300);
+      }
+      window.dismissSheet = dismissSheet;
 
       // Open / close a bottom sheet by id
       function openSheet(id) {
@@ -1189,7 +1298,7 @@
           return (
             '<div class="card" style="margin-bottom:12px;">' +
               '<div style="display:flex;gap:12px;padding:16px;">' +
-                '<img src="' + esc(p.image) + '" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px;background:var(--color-surface-2);flex-shrink:0;" onerror="this.style.display=\'none\'" />' +
+                '<img src="' + esc(productImageFallback(p.image, cat.image)) + '" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px;background:var(--color-surface-2);flex-shrink:0;" onerror="' + imageErrorHandler(p.image, cat.image) + '" />' +
                 '<div style="flex:1;min-width:0;">' +
                   '<div style="font-weight:600;">' + esc(p.name) + badgeHtml + '</div>' +
                   '<div style="font-size:14px;color:var(--color-accent);font-weight:600;">' + esc(p.price) + (p.originalPrice ? ' <span style="text-decoration:line-through;color:var(--color-text-muted);font-weight:400;">' + esc(p.originalPrice) + '</span>' : '') + '</div>' +
@@ -1241,7 +1350,7 @@
               '<div class="sheet-handle"></div>' +
               '<div class="sheet-header">' +
                 '<span class="sheet-title">' + (isEdit ? 'Edit Category' : 'Add Category') + '</span>' +
-                '<button class="sheet-close" onclick="closeSheet(\'' + sheetId + '\')" aria-label="Close">✕</button>' +
+                '<button class="sheet-close" onclick="dismissSheet(\'' + sheetId + '\')" aria-label="Close">✕</button>' +
               '</div>' +
               '<form id="cat-form" class="sheet-body">' +
                 '<div id="cat-form-error" class="alert alert-error" style="display:none;"></div>' +
@@ -1263,7 +1372,7 @@
               '</form>' +
               '<div class="sheet-footer">' +
                 '<button class="btn btn-primary btn-full" onclick="App.submitCategoryForm(\'' + (isEdit ? cat.id : '') + '\')">' + (isEdit ? 'Save Changes' : 'Add Category') + '</button>' +
-                '<button class="btn btn-ghost btn-full" onclick="closeSheet(\'' + sheetId + '\')">Cancel</button>' +
+                '<button class="btn btn-ghost btn-full" onclick="dismissSheet(\'' + sheetId + '\')">Cancel</button>' +
               '</div>' +
             '</div>' +
           '</div>';
@@ -1275,8 +1384,7 @@
         document.getElementById('cat-image').addEventListener('input', function() {
           const preview = document.getElementById('cat-img-preview');
           const val = this.value.trim();
-          if (!val) { preview.innerHTML = ''; return; }
-          preview.innerHTML = '<img src="' + esc(val) + '" style="max-height:80px;border-radius:6px;" onerror="this.parentElement.innerHTML=\'<span class=\\\"alert alert-warning\\\" style=\\\"display:inline-block;\\\">⚠️ Image not found — check the path</span>\'" />';
+          renderImagePreview(preview, val, '80px');
         });
         // Trigger preview if editing
         if (cat && cat.image) document.getElementById('cat-image').dispatchEvent(new Event('input'));
@@ -1291,12 +1399,8 @@
 
         const state = StateManager.getState();
         const cat   = state.siteObject.categories.items.find(function(c) { return c.id === catId; });
-        const folderHint = cat ? 'images/products/' + esc(catId) + '/filename.jpg' : 'images/products/{category}/filename.jpg';
-
-        // Folder reference list
-        const folders = state.siteObject.categories.items.map(function(c) {
-          return '<code style="display:inline-block;background:var(--color-surface-2);padding:2px 6px;border-radius:4px;font-size:12px;margin:2px;">images/products/' + esc(c.id) + '/</code>';
-        }).join(' ');
+        const uploadFolder = productUploadFolder(cat);
+        const folderHint = uploadFolder + '/filename.jpg';
 
         const badgeOptions = ['', 'New', 'Sale', 'Bestseller'].map(function(b) {
           return '<option value="' + b + '"' + ((prod && prod.badge === b) ? ' selected' : (!prod && b === '' ? ' selected' : '')) + '>' + (b || 'None') + '</option>';
@@ -1308,7 +1412,7 @@
               '<div class="sheet-handle"></div>' +
               '<div class="sheet-header">' +
                 '<span class="sheet-title">' + (isEdit ? 'Edit Product' : 'Add Product') + '</span>' +
-                '<button class="sheet-close" onclick="closeSheet(\'' + sheetId + '\')" aria-label="Close">✕</button>' +
+                '<button class="sheet-close" onclick="dismissSheet(\'' + sheetId + '\')" aria-label="Close">✕</button>' +
               '</div>' +
               '<form id="prod-form" class="sheet-body">' +
                 '<div id="prod-form-error" class="alert alert-error" style="display:none;"></div>' +
@@ -1330,11 +1434,19 @@
                   '<label class="form-label" for="prod-badge">Badge</label>' +
                   '<select class="form-select" id="prod-badge" data-field="badge">' + badgeOptions + '</select>' +
                 '</div>' +
+                // ── Image upload section ──
                 '<div class="form-group">' +
-                  '<label class="form-label" for="prod-image">Image Path <span class="required">*</span></label>' +
+                  '<label class="form-label">Product Image <span class="required">*</span></label>' +
+                  // Upload button (primary way — picks from camera roll on phone)
+                  '<label style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 16px;border:2px dashed var(--color-border);border-radius:10px;cursor:pointer;font-size:15px;color:var(--color-accent);background:var(--color-surface-2);margin-bottom:8px;" for="prod-file-input">' +
+                    '📷 Upload from phone / computer' +
+                  '</label>' +
+                  '<input type="file" id="prod-file-input" accept="image/*" style="display:none;" />' +
+                  '<div id="prod-upload-status" style="font-size:13px;margin-bottom:8px;display:none;"></div>' +
+                  // Manual path fallback
+                  '<label class="form-label" for="prod-image" style="font-size:12px;color:var(--color-text-muted);">Or enter image path manually</label>' +
                   '<input class="form-input" id="prod-image" data-field="image" type="text" value="' + esc(prod ? prod.image : '') + '" placeholder="' + folderHint + '" />' +
                   '<span class="form-error-msg" data-error="image" style="display:none;"></span>' +
-                  '<div style="margin-top:6px;font-size:12px;color:var(--color-text-muted);">Available folders: ' + folders + '</div>' +
                   '<div id="prod-img-preview" style="margin-top:8px;"></div>' +
                 '</div>' +
                 '<div class="form-group">' +
@@ -1343,8 +1455,8 @@
                 '</div>' +
               '</form>' +
               '<div class="sheet-footer">' +
-                '<button class="btn btn-primary btn-full" onclick="App.submitProductForm(\'' + esc(catId) + '\',\'' + (isEdit ? esc(prod.id) : '') + '\')">' + (isEdit ? 'Save Changes' : 'Add Product') + '</button>' +
-                '<button class="btn btn-ghost btn-full" onclick="closeSheet(\'' + sheetId + '\')">Cancel</button>' +
+                '<button class="btn btn-primary btn-full" id="prod-submit-btn" onclick="App.submitProductForm(\'' + esc(catId) + '\',\'' + (isEdit ? esc(prod.id) : '') + '\')">' + (isEdit ? 'Save Changes' : 'Add Product') + '</button>' +
+                '<button class="btn btn-ghost btn-full" onclick="dismissSheet(\'' + sheetId + '\')">Cancel</button>' +
               '</div>' +
             '</div>' +
           '</div>';
@@ -1352,14 +1464,72 @@
         document.body.insertAdjacentHTML('beforeend', html);
         openSheet(sheetId);
 
-        // Live image preview
+        // Live image preview from manual path input
         document.getElementById('prod-image').addEventListener('input', function() {
           const preview = document.getElementById('prod-img-preview');
           const val = this.value.trim();
-          if (!val) { preview.innerHTML = ''; return; }
-          preview.innerHTML = '<img src="' + esc(val) + '" style="max-height:100px;border-radius:6px;" onerror="this.parentElement.innerHTML=\'<span class=\\\"alert alert-warning\\\" style=\\\"display:inline-block;\\\">⚠️ Image not found — check the path</span>\'" />';
+          renderImagePreview(preview, val, '100px');
         });
         if (prod && prod.image) document.getElementById('prod-image').dispatchEvent(new Event('input'));
+
+        // ── Image upload handler ──────────────────────────────
+        document.getElementById('prod-file-input').addEventListener('change', async function() {
+          const file = this.files[0];
+          if (!file) return;
+
+          const statusEl  = document.getElementById('prod-upload-status');
+          const submitBtn = document.getElementById('prod-submit-btn');
+          const imageInput = document.getElementById('prod-image');
+          const preview   = document.getElementById('prod-img-preview');
+
+          // Validate file type and size (max 5 MB)
+          if (!file.type.startsWith('image/')) {
+            statusEl.textContent = '❌ Please select an image file.';
+            statusEl.style.color = 'var(--color-danger)';
+            statusEl.style.display = 'block';
+            return;
+          }
+          if (file.size > 5 * 1024 * 1024) {
+            statusEl.textContent = '❌ Image must be under 5 MB.';
+            statusEl.style.color = 'var(--color-danger)';
+            statusEl.style.display = 'block';
+            return;
+          }
+
+          // Show uploading state
+          statusEl.textContent = '⏳ Uploading image…';
+          statusEl.style.color = 'var(--color-text-muted)';
+          statusEl.style.display = 'block';
+          submitBtn.disabled = true;
+
+          try {
+            // Build the target path beside this category's existing product images.
+            const safeName  = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
+            const imagePath = uploadFolder + '/' + Date.now() + '-' + safeName;
+
+            // Read file as base64
+            const b64 = await new Promise(function(resolve, reject) {
+              const reader = new FileReader();
+              reader.onload  = function() { resolve(reader.result.split(',')[1]); };
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+            });
+
+            // Upload to GitHub via Contents API (putFileRaw accepts pre-encoded b64)
+            await GitHubClient.putFileRaw(imagePath, b64, 'Admin: upload product image ' + safeName);
+
+            // Fill in the path and show preview
+            imageInput.value = imagePath;
+            imageInput.dispatchEvent(new Event('input'));
+            statusEl.textContent = '✅ Image uploaded!';
+            statusEl.style.color = 'var(--color-success)';
+          } catch (err) {
+            statusEl.textContent = '❌ Upload failed: ' + (err.message || 'Unknown error');
+            statusEl.style.color = 'var(--color-danger)';
+          } finally {
+            submitBtn.disabled = false;
+          }
+        });
       }
 
       // ── Task 12.1: Confirm dialog ─────────────────────────
