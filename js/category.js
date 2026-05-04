@@ -82,7 +82,7 @@ function buildProducts(products) {
         />
         ${p.badge ? `<span class="product-badge badge-${p.badge.toLowerCase().replace(' ','')}">${p.badge}</span>` : ''}
         <div class="product-actions">
-          <button onclick="enquire('${p.name}')">Enquire Now</button>
+          <button type="button" class="enquire-btn" data-product="${escapeAttr(p.name)}">Enquire Now</button>
         </div>
       </div>
       <div class="product-body">
@@ -113,11 +113,32 @@ window.sortProducts = function(value) {
 };
 
 // =============================================
-// ENQUIRE (placeholder action)
+function escapeAttr(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+// ENQUIRE
 // =============================================
 window.enquire = function(name) {
-  window.location.href = `index.html#contact`;
+  const message = name ? `Hi StoneLight, I have a query about ${name}.` : 'Hi StoneLight, I have a product query.';
+  const whatsapp = (SITE.contact && SITE.contact.whatsapp) || '';
+  if (whatsapp) {
+    const base = whatsapp.split('?')[0];
+    window.location.href = `${base}?text=${encodeURIComponent(message)}`;
+    return;
+  }
+  window.location.href = 'index.html#contact';
 };
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.enquire-btn');
+  if (!btn) return;
+  enquire(btn.dataset.product || '');
+});
 
 // =============================================
 // OTHER CATEGORIES STRIP

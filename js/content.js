@@ -58,10 +58,12 @@ const SITE = {
   //    │  },                                                      │
   //    └─────────────────────────────────────────────────────────┘
   // ────────────────────────────────────────────────────────────
-    categories: {
+  categories: {
     sectionTag:   "Collections",
     sectionTitle: "Shop by Category",
     items: [
+
+      // ── CATEGORY 1: Trolley Suitcase ──────────────────────────
       {
         id:          "c1",
         name:        "Trolley Suitcase",
@@ -74,8 +76,8 @@ const SITE = {
             price:         "₹3,499",
             originalPrice: "₹5,999",
             badge:         "Sale",
-            image:         "images/products/trolley-suitcase/1777886389910-img_0827.png",
-            description:   "8 Wheeler, Strong Fabric, Jointed Handle, Number Lock System, Smooth Zipper, Push Button Trolley, Extra Compartment",
+            image:         "images/products/trolley-suitcase/prod-1.jpg",
+            description:   "Lightweight hardshell, TSA lock, 360° spinner wheels.",
           },
           {
             id:            "ts2",
@@ -95,8 +97,11 @@ const SITE = {
             image:         "images/products/trolley-suitcase/prod-3.jpg",
             description:   "Maximum capacity for long trips.",
           },
+          // ← ADD MORE TROLLEY SUITCASE PRODUCTS HERE
         ],
       },
+
+      // ── CATEGORY 2: Trolley Duffle Bag ────────────────────────
       {
         id:          "c2",
         name:        "Trolley Duffle Bag",
@@ -130,8 +135,11 @@ const SITE = {
             image:         "images/products/trolley-duffle/prod-3.jpg",
             description:   "Fits carry-on requirements on most airlines.",
           },
+          // ← ADD MORE TROLLEY DUFFLE PRODUCTS HERE
         ],
       },
+
+      // ── CATEGORY 3: Laptop Bag ────────────────────────────────
       {
         id:          "c3",
         name:        "Laptop Bag",
@@ -165,8 +173,11 @@ const SITE = {
             image:         "images/products/laptop-bag/prod-3.jpg",
             description:   "Carry as a tote or backpack — versatile everyday use.",
           },
+          // ← ADD MORE LAPTOP BAG PRODUCTS HERE
         ],
       },
+
+      // ── CATEGORY 4: Rucksack Backpack ─────────────────────────
       {
         id:          "c4",
         name:        "Rucksack Backpack",
@@ -200,8 +211,11 @@ const SITE = {
             image:         "images/products/rucksack/prod-3.jpg",
             description:   "Waxed canvas, leather accents, retro style.",
           },
+          // ← ADD MORE RUCKSACK PRODUCTS HERE
         ],
       },
+
+      // ── CATEGORY 5: School Bag ────────────────────────────────
       {
         id:          "c5",
         name:        "School Bag",
@@ -235,8 +249,11 @@ const SITE = {
             image:         "images/products/school-bag/prod-3.jpg",
             description:   "Large main compartment + laptop sleeve for teens.",
           },
+          // ← ADD MORE SCHOOL BAG PRODUCTS HERE
         ],
       },
+
+      // ── CATEGORY 6: Air Bag ───────────────────────────────────
       {
         id:          "c6",
         name:        "Air Bag",
@@ -270,8 +287,11 @@ const SITE = {
             image:         "images/products/air-bag/prod-3.jpg",
             description:   "Trolley sleeve, RFID pocket, TSA-friendly design.",
           },
+          // ← ADD MORE AIR BAG PRODUCTS HERE
         ],
       },
+
+      // ── CATEGORY 7: File Bag ──────────────────────────────────
       {
         id:          "c7",
         name:        "File Bag",
@@ -305,8 +325,11 @@ const SITE = {
             image:         "images/products/file-bag/prod-3.jpg",
             description:   "Expandable, fits tablets and office docs.",
           },
+          // ← ADD MORE FILE BAG PRODUCTS HERE
         ],
       },
+
+      // ── CATEGORY 8: Travel Accessories ───────────────────────
       {
         id:          "c8",
         name:        "Travel Accessories",
@@ -340,10 +363,12 @@ const SITE = {
             image:         "images/products/travel-accessories/prod-3.jpg",
             description:   "Waterproof lining, hooks on bathroom door.",
           },
+          // ← ADD MORE TRAVEL ACCESSORIES HERE
         ],
       },
+
     ], // end categories items
-  },   // end categories   // end categories
+  },   // end categories
 
 
   // ────────────────────────────────────────────────────────────
