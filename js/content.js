@@ -444,7 +444,7 @@ const SITE = {
     phone:     "+91 7906634074",
     address:   "Sunil Enterprise, Naurangabad chuaraha, Etawah, India",
     whatsapp:  "https://wa.me/917906634074?text=Hi%20StoneLight%2C%20I%20have%20a%20query%20about%20your%20products.",
-    instagram: "https://www.instagram.com/",   // ← Replace with your real Instagram URL
+    instagram: "https://www.instagram.com/sunil_enterprises_etawah",   // ← Replace with your real Instagram URL
   },
 
 
