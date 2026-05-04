@@ -58,7 +58,7 @@ const SITE = {
   //    │  },                                                      │
   //    └─────────────────────────────────────────────────────────┘
   // ────────────────────────────────────────────────────────────
-      categories: {
+        categories: {
     sectionTag:   "Collections",
     sectionTitle: "Shop by Category",
     items: [
@@ -75,7 +75,7 @@ const SITE = {
             originalPrice: "₹5,999",
             badge:         "Sale",
             image:         "images/products/trolley-suitcase/1777883945483-img_0827.png",
-            description:   "Lightweight hardshell, TSA lock, 360° spinner wheels.",
+            description:   "8 wheeler,String Fabric,Jointed Handle,Number Lock System,Smooth Zipper,Push Button,Trolley,Extra Compartment",
           },
           {
             id:            "ts2",
@@ -343,7 +343,7 @@ const SITE = {
         ],
       },
     ], // end categories items
-  },   // end categories   // end categories   // end categories
+  },   // end categories   // end categories   // end categories   // end categories
 
 
   // ────────────────────────────────────────────────────────────
