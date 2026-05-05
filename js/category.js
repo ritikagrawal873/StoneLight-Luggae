@@ -91,11 +91,23 @@ function buildProducts(products) {
         <div class="product-price">
           <span class="price-current">${p.price}</span>
           ${p.originalPrice ? `<span class="price-original">${p.originalPrice}</span>` : ''}
-          ${p.discount      ? `<span class="price-discount">${p.discount}</span>`      : ''}
+          ${productDiscountLabel(p) ? `<span class="price-discount">${productDiscountLabel(p)}</span>` : ''}
         </div>
       </div>
     </div>
   `).join('');
+}
+
+function productDiscountLabel(product) {
+  if (product.discount) return product.discount;
+  const current = parsePrice(product.price);
+  const original = parsePrice(product.originalPrice);
+  if (!current || !original || current >= original) return '';
+  return Math.round(((original - current) / original) * 100) + '% OFF';
+}
+
+function parsePrice(value) {
+  return parseInt(String(value || '').replace(/[^0-9]/g, ''), 10) || 0;
 }
 
 // =============================================
@@ -103,10 +115,9 @@ function buildProducts(products) {
 // =============================================
 window.sortProducts = function(value) {
   let sorted = [...currentProducts];
-  const parse = str => parseInt(str.replace(/[^0-9]/g, '')) || 0;
 
-  if (value === 'price-asc')  sorted.sort((a,b) => parse(a.price) - parse(b.price));
-  if (value === 'price-desc') sorted.sort((a,b) => parse(b.price) - parse(a.price));
+  if (value === 'price-asc')  sorted.sort((a,b) => parsePrice(a.price) - parsePrice(b.price));
+  if (value === 'price-desc') sorted.sort((a,b) => parsePrice(b.price) - parsePrice(a.price));
 
   buildProducts(sorted);
   initScrollReveal();
