@@ -13,8 +13,9 @@ const SITE = {
   brand: {
     name:            "StoneLight",
     logo:            "images/home/Logo.JPG.jpeg",   // Path to your logo file
-    pageTitle:       "StoneLight | Premium Bags & Accessories",
-    metaDescription: "Premium bags and accessories for every occasion.",
+    url:             "https://stonelight.in",
+    pageTitle:       "StoneLight | Premium Bags, Suitcases & Travel Accessories",
+    metaDescription: "Shop StoneLight premium bags in Etawah, India: trolley suitcases, trolley duffle bags, laptop bags, rucksacks, school bags, file bags, air bags, and travel accessories.",
   },
 
 
@@ -25,9 +26,9 @@ const SITE = {
   // ────────────────────────────────────────────────────────────
   hero: {
     eyebrow:         "New Collection 2026",           // Small label above the title
-    title:           "Carry Your Story",              // Main headline
-    subtitle:        "Thoughtfully crafted bags for the modern world — where style meets purpose.",
-    ctaPrimary:      { text: "Shop Now",  link: "#categories" },  // First button
+    title:           "Premium Bags, Suitcases & Travel Accessories",              // Main headline
+    subtitle:        "Shop thoughtfully crafted trolley suitcases, laptop bags, school bags, rucksacks, duffle bags, file bags, air bags, and travel accessories in Etawah, India.",
+    ctaPrimary:      { text: "Shop Collections",  link: "#categories" },  // First button
     ctaSecondary:    { text: "Our Story", link: "#about" },        // Second button
     backgroundImage: "images/hero/background.PNG",    // Hero background photo
   },
@@ -60,7 +61,7 @@ const SITE = {
   // ────────────────────────────────────────────────────────────
     categories: {
     sectionTag:   "Collections",
-    sectionTitle: "Shop by Category",
+    sectionTitle: "Shop Bags by Category",
     items: [
       {
         id:          "c1",
@@ -385,7 +386,7 @@ const SITE = {
   // ────────────────────────────────────────────────────────────
   about: {
     sectionTag: "Our Story",
-    title:      "Crafted with Passion",
+    title:      "StoneLight Bag Store in Etawah",
     paragraphs: [
       "At <strong>StoneLight</strong>, we believe a great bag is more than an accessory — it's a companion for life's most important moments.",
       "Founded in 2026 with a single dream: to make premium, thoughtfully designed bags accessible to everyone.",
@@ -411,8 +412,8 @@ const SITE = {
   // ────────────────────────────────────────────────────────────
   contact: {
     sectionTag:  "Contact Us",
-    sectionTitle: "Let's Talk",
-    sectionDesc:  "Have a question? We'd love to hear from you. Send us a message and we'll get back within 24 hours.",
+    sectionTitle: "Visit or Enquire About StoneLight Bags",
+    sectionDesc:  "Have a question about a suitcase, laptop bag, school bag, or travel accessory? Send us a message and we'll get back within 24 hours.",
     email:     "Stonelight144@gmail.com",
     phone:     "+91 7906634074",
     address:   "Sunil Enterprise, Naurangabad chuaraha, Etawah, India",

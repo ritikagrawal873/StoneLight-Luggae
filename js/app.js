@@ -28,8 +28,60 @@ function buildPage() {
 
 function buildMeta() {
   const S = SITE.brand;
+  const siteUrl = getSiteUrl();
   document.title = S.pageTitle;
-  document.querySelector('meta[name="description"]').content = S.metaDescription;
+  setMeta('name', 'description', S.metaDescription);
+  setMeta('name', 'robots', 'index, follow');
+  setMeta('property', 'og:type', 'website');
+  setMeta('property', 'og:site_name', S.name);
+  setMeta('property', 'og:title', S.pageTitle);
+  setMeta('property', 'og:description', S.metaDescription);
+  setMeta('property', 'og:url', siteUrl + '/');
+  setMeta('property', 'og:image', absoluteUrl(SITE.hero.backgroundImage));
+  setMeta('name', 'twitter:card', 'summary_large_image');
+  setCanonical(siteUrl + '/');
+  setJsonLd('homepage-schema', {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': siteUrl + '/#organization',
+        name: S.name,
+        url: siteUrl + '/',
+        logo: absoluteUrl(S.logo),
+        sameAs: [SITE.contact.instagram].filter(Boolean),
+        contactPoint: {
+          '@type': 'ContactPoint',
+          telephone: SITE.contact.phone,
+          contactType: 'customer service',
+          areaServed: 'IN',
+        },
+      },
+      {
+        '@type': 'LocalBusiness',
+        '@id': siteUrl + '/#localbusiness',
+        name: S.name,
+        image: absoluteUrl(SITE.hero.backgroundImage),
+        url: siteUrl + '/',
+        telephone: SITE.contact.phone,
+        email: SITE.contact.email,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: SITE.contact.address,
+          addressLocality: 'Etawah',
+          addressCountry: 'IN',
+        },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': siteUrl + '/#website',
+        url: siteUrl + '/',
+        name: S.name,
+        publisher: { '@id': siteUrl + '/#organization' },
+      },
+    ],
+  });
+
   document.querySelectorAll('.brand-name').forEach(el => {
     if (S.logo) {
       el.innerHTML = `<img src="${S.logo}" alt="${S.name}" class="brand-logo" />`;
@@ -37,6 +89,48 @@ function buildMeta() {
       el.textContent = S.name;
     }
   });
+}
+
+function getSiteUrl() {
+  return (SITE.brand.url || window.location.origin).replace(/\/$/, '');
+}
+
+function absoluteUrl(path) {
+  if (!path) return '';
+  if (/^https?:\/\//.test(path)) return path;
+  return `${getSiteUrl()}/${String(path).replace(/^\//, '')}`;
+}
+
+function setMeta(attr, key, content) {
+  if (!content) return;
+  let tag = document.querySelector(`meta[${attr}="${key}"]`);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(attr, key);
+    document.head.appendChild(tag);
+  }
+  tag.content = content;
+}
+
+function setCanonical(href) {
+  let tag = document.querySelector('link[rel="canonical"]');
+  if (!tag) {
+    tag = document.createElement('link');
+    tag.rel = 'canonical';
+    document.head.appendChild(tag);
+  }
+  tag.href = href;
+}
+
+function setJsonLd(id, data) {
+  let tag = document.getElementById(id);
+  if (!tag) {
+    tag = document.createElement('script');
+    tag.type = 'application/ld+json';
+    tag.id = id;
+    document.head.appendChild(tag);
+  }
+  tag.textContent = JSON.stringify(data);
 }
 
 function buildHero() {

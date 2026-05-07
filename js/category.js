@@ -39,9 +39,97 @@ document.addEventListener('DOMContentLoaded', () => {
 // META / HEAD
 // =============================================
 function buildMeta() {
-  document.title = `${currentCategory.name} — ${SITE.brand.name}`;
-  document.querySelector('meta[name="description"]').content =
-    currentCategory.description;
+  const siteUrl = getSiteUrl();
+  const categoryUrl = `${siteUrl}/category.html?id=${encodeURIComponent(currentCategory.id)}`;
+  const title = `${currentCategory.name} | StoneLight Bags`;
+  const description = `${currentCategory.description} Shop ${currentCategory.name.toLowerCase()} from StoneLight in Etawah, India.`;
+
+  document.title = title;
+  setMeta('name', 'description', description);
+  setMeta('name', 'robots', 'index, follow');
+  setMeta('property', 'og:type', 'website');
+  setMeta('property', 'og:site_name', SITE.brand.name);
+  setMeta('property', 'og:title', title);
+  setMeta('property', 'og:description', description);
+  setMeta('property', 'og:url', categoryUrl);
+  setMeta('property', 'og:image', absoluteUrl(currentCategory.image));
+  setMeta('name', 'twitter:card', 'summary_large_image');
+  setCanonical(categoryUrl);
+  setJsonLd('category-schema', {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    description,
+    url: categoryUrl,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: SITE.brand.name,
+      url: siteUrl + '/',
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: currentCategory.products.map((product, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Product',
+          name: product.name,
+          description: product.description,
+          image: absoluteUrl(product.image),
+          brand: { '@type': 'Brand', name: SITE.brand.name },
+          offers: {
+            '@type': 'Offer',
+            priceCurrency: 'INR',
+            price: parsePrice(product.price),
+            availability: 'https://schema.org/InStock',
+            url: `${categoryUrl}#prod-${product.id}`,
+          },
+        },
+      })),
+    },
+  });
+}
+
+function getSiteUrl() {
+  return (SITE.brand.url || window.location.origin).replace(/\/$/, '');
+}
+
+function absoluteUrl(path) {
+  if (!path) return '';
+  if (/^https?:\/\//.test(path)) return path;
+  return `${getSiteUrl()}/${String(path).replace(/^\//, '')}`;
+}
+
+function setMeta(attr, key, content) {
+  if (!content) return;
+  let tag = document.querySelector(`meta[${attr}="${key}"]`);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(attr, key);
+    document.head.appendChild(tag);
+  }
+  tag.content = content;
+}
+
+function setCanonical(href) {
+  let tag = document.querySelector('link[rel="canonical"]');
+  if (!tag) {
+    tag = document.createElement('link');
+    tag.rel = 'canonical';
+    document.head.appendChild(tag);
+  }
+  tag.href = href;
+}
+
+function setJsonLd(id, data) {
+  let tag = document.getElementById(id);
+  if (!tag) {
+    tag = document.createElement('script');
+    tag.type = 'application/ld+json';
+    tag.id = id;
+    document.head.appendChild(tag);
+  }
+  tag.textContent = JSON.stringify(data);
 }
 
 // =============================================
