@@ -70,15 +70,6 @@ const SITE = {
         description: "Premium hardshell & softshell trolley suitcases built for every journey.",
         products: [
           {
-            id:            "ts1",
-            name:          "20\" Cabin Trolley",
-            price:         "₹3,499",
-            originalPrice: "₹5,999",
-            badge:         "Sale",
-            image:         "images/products/trolley-suitcase/1777996473430-img_0827.png",
-            description:   "8 Wheeler, Strong Fabric, Jointed Handle, Number Lock System, Smooth Zipper, Push Button Trolley, Extra Compartment",
-          },
-          {
             id:            "ts2",
             name:          "24\" Check-in Trolley",
             price:         "₹4,999",
