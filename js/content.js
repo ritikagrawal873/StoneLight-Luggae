@@ -59,7 +59,7 @@ const SITE = {
   //    │  },                                                      │
   //    └─────────────────────────────────────────────────────────┘
   // ────────────────────────────────────────────────────────────
-    categories: {
+      categories: {
     sectionTag:   "Collections",
     sectionTitle: "Shop Bags by Category",
     items: [
@@ -95,6 +95,15 @@ const SITE = {
             badge:         "Sale",
             image:         "images/products/trolley-suitcase/prod-3.jpg",
             description:   "Maximum capacity for long trips.",
+          },
+          {
+            id:            "prod_1778697694477",
+            name:          "Set of 2 (small & medium) ",
+            price:         "2399",
+            originalPrice: "25998",
+            badge:         "New",
+            image:         "images/products/trolley-suitcase/1778697608531-a34ee984-cc25-491f-90e0-38b19eff2486.png",
+            description:   "5 year warranty \n8 wheeler\nLock system \nJointed double handle \nStrong fabric ",
           },
         ],
       },
@@ -344,7 +353,7 @@ const SITE = {
         ],
       },
     ], // end categories items
-  },   // end categories   // end categories
+  },   // end categories   // end categories   // end categories
 
 
   // ────────────────────────────────────────────────────────────
