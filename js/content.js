@@ -114,6 +114,15 @@ const SITE = {
             image:         "images/products/trolley-suitcase/1778870854236-caadac9c-ea09-4004-b7e7-9d0a5eab121b.png",
             description:   "5 year fabric gurentee \n8 wheeler \nJointed double handle \nStrong zipper\n",
           },
+          {
+            id:            "prod_1778871280669",
+            name:          "Set of 2 (55cm/65cm) ",
+            price:         "1950 ",
+            originalPrice: "14998",
+            badge:         "Sale",
+            image:         "images/products/trolley-suitcase/1778871210833-29d2f66a-6fd0-4bd4-9f04-38e84c0068a8.png",
+            description:   "5 year gurentee \n8 wheeler \nJointed double handle \nStrong zipper",
+          },
         ],
       },
       {
