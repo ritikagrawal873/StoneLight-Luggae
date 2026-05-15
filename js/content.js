@@ -59,7 +59,7 @@ const SITE = {
   //    │  },                                                      │
   //    └─────────────────────────────────────────────────────────┘
   // ────────────────────────────────────────────────────────────
-      categories: {
+        categories: {
     sectionTag:   "Collections",
     sectionTitle: "Shop Bags by Category",
     items: [
@@ -70,24 +70,6 @@ const SITE = {
         description: "Premium hardshell & softshell trolley suitcases built for every journey.",
         products: [
           {
-            id:            "ts2",
-            name:          "24\" Check-in Trolley",
-            price:         "₹4,999",
-            originalPrice: "",
-            badge:         "Bestseller",
-            image:         "images/products/trolley-suitcase/prod-2.jpg",
-            description:   "Spacious check-in suitcase with expandable zip.",
-          },
-          {
-            id:            "ts3",
-            name:          "28\" Large Trolley",
-            price:         "₹5,999",
-            originalPrice: "₹7,999",
-            badge:         "Sale",
-            image:         "images/products/trolley-suitcase/prod-3.jpg",
-            description:   "Maximum capacity for long trips.",
-          },
-          {
             id:            "prod_1778697694477",
             name:          "Set of 2 (small & medium) ",
             price:         "2399",
@@ -95,6 +77,15 @@ const SITE = {
             badge:         "New",
             image:         "images/products/trolley-suitcase/1778697608531-a34ee984-cc25-491f-90e0-38b19eff2486.png",
             description:   "5 year warranty \n8 wheeler\nLock system \nJointed double handle \nStrong fabric ",
+          },
+          {
+            id:            "prod_1778870169120",
+            name:          "Set of 3 trolley ",
+            price:         "35998",
+            originalPrice: "3250 ",
+            badge:         "Bestseller",
+            image:         "images/products/trolley-suitcase/1778870121013-9c5db67d-40d1-4835-9965-e443d8965386.png",
+            description:   "5 year fabric gurentee \n8 wheeler\n2 jointed handle \nStrong zipper ",
           },
         ],
       },
@@ -344,7 +335,7 @@ const SITE = {
         ],
       },
     ], // end categories items
-  },   // end categories   // end categories   // end categories
+  },   // end categories   // end categories   // end categories   // end categories
 
 
   // ────────────────────────────────────────────────────────────
