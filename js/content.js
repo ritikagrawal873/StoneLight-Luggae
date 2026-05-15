@@ -96,6 +96,15 @@ const SITE = {
             image:         "images/products/trolley-suitcase/1778870230043-42f53429-e801-4e81-8e8f-93c16f9690a7.png",
             description:   "5 year fabric gurentee\n8 wheeler\nJointed double handle \nStrong zipper",
           },
+          {
+            id:            "prod_1778870448056",
+            name:          "Set of 3 ",
+            price:         "3250",
+            originalPrice: "35998",
+            badge:         "Bestseller",
+            image:         "images/products/trolley-suitcase/1778870381507-bad1f844-965e-42dd-babe-74c321d839ed.png",
+            description:   "5 year fabric gurentee \n8 wheeler \nJointed double handle \nStrong zipper",
+          },
         ],
       },
       {
