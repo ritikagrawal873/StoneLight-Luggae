@@ -59,7 +59,7 @@ const SITE = {
   //    │  },                                                      │
   //    └─────────────────────────────────────────────────────────┘
   // ────────────────────────────────────────────────────────────
-        categories: {
+          categories: {
     sectionTag:   "Collections",
     sectionTitle: "Shop Bags by Category",
     items: [
@@ -104,6 +104,15 @@ const SITE = {
             badge:         "Bestseller",
             image:         "images/products/trolley-suitcase/1778870381507-bad1f844-965e-42dd-babe-74c321d839ed.png",
             description:   "5 year fabric gurentee \n8 wheeler \nJointed double handle \nStrong zipper",
+          },
+          {
+            id:            "prod_1778870903863",
+            name:          "Set of 2 (55cm/65cm)",
+            price:         "1950",
+            originalPrice: "14998",
+            badge:         "New",
+            image:         "images/products/trolley-suitcase/1778870854236-caadac9c-ea09-4004-b7e7-9d0a5eab121b.png",
+            description:   "5 year fabric gurentee \n8 wheeler \nJointed double handle \nStrong zipper\n",
           },
         ],
       },
@@ -353,7 +362,7 @@ const SITE = {
         ],
       },
     ], // end categories items
-  },   // end categories   // end categories   // end categories   // end categories
+  },   // end categories   // end categories   // end categories   // end categories   // end categories
 
 
   // ────────────────────────────────────────────────────────────
