@@ -59,7 +59,7 @@ const SITE = {
   //    │  },                                                      │
   //    └─────────────────────────────────────────────────────────┘
   // ────────────────────────────────────────────────────────────
-          categories: {
+            categories: {
     sectionTag:   "Collections",
     sectionTitle: "Shop Bags by Category",
     items: [
@@ -108,7 +108,7 @@ const SITE = {
           {
             id:            "prod_1778870903863",
             name:          "Set of 2 (55cm/65cm)",
-            price:         "1950",
+            price:         "2250",
             originalPrice: "14998",
             badge:         "New",
             image:         "images/products/trolley-suitcase/1778870854236-caadac9c-ea09-4004-b7e7-9d0a5eab121b.png",
@@ -117,11 +117,20 @@ const SITE = {
           {
             id:            "prod_1778871280669",
             name:          "Set of 2 (55cm/65cm) ",
-            price:         "1950 ",
+            price:         "2250",
             originalPrice: "14998",
             badge:         "Sale",
             image:         "images/products/trolley-suitcase/1778871210833-29d2f66a-6fd0-4bd4-9f04-38e84c0068a8.png",
             description:   "5 year gurentee \n8 wheeler \nJointed double handle \nStrong zipper",
+          },
+          {
+            id:            "prod_1778960394262",
+            name:          "Set of 2 (55cm/65cm)",
+            price:         "2250",
+            originalPrice: "14998",
+            badge:         "Bestseller",
+            image:         "images/products/trolley-suitcase/1778960350059-5bcdb216-22fe-44f6-a6f8-d87cc03d2cec.png",
+            description:   "5 year fabric gurentee \n8 wheeler\nJointed double handle \nStrong zipper ",
           },
         ],
       },
@@ -371,7 +380,7 @@ const SITE = {
         ],
       },
     ], // end categories items
-  },   // end categories   // end categories   // end categories   // end categories   // end categories
+  },   // end categories   // end categories   // end categories   // end categories   // end categories   // end categories
 
 
   // ────────────────────────────────────────────────────────────
